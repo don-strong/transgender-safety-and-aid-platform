@@ -1,15 +1,19 @@
-# 🧭 CS 301 Group Project : Transgender Safety & Aid Platform
+# 🧭 CS 301 Group Project — Transgender Safety & Aid Platform
+
 ---
 
 ## 📘 Project Name
-Trans Safety (temp name) 
+**Trans Safety (temp title)**  
 A community-driven platform designed to help transgender individuals locate safe, inclusive, and affirming businesses and services. The project connects users to verified resources such as healthcare providers, retail stores, and personal care services—while allowing them to share reviews, highlight safe spaces, and contribute to a supportive network of trusted locations.
 
 ---
 
 ## 👥 Group Members / Contributors
-| Aaron | Project Manager / Backend Developer / Documentation | @aaron-alaman |
-| Justin | Frontend Developer / Tester / Documentation | @six-planet312 |
+Original Project Idea: Hayley
+| Name | Role | GitHub Username |
+|------|------|-----------------|
+| Aaron Alaman | Project Manager / Backend Developer / Documentation | @aaronalaman |
+| Justin Brown | Frontend Developer / Tester / Documentation | @sixplanet312 |
 
 ---
 
@@ -18,7 +22,7 @@ Transgender individuals often face challenges finding safe, affirming, and inclu
 
 ---
 
-## ⚙️ Current Features
+## ⚙️ Current Features 
 1. Filter & Search Functionality — users can search for businesses by name, location, or keywords and apply filters for service type.
 2. Service Categorization — businesses are organized by categories such as healthcare, retail, or personal care.
 3. User Account Creation & Login — enables users to create accounts, securely log in, and access personalized features.
@@ -62,5 +66,6 @@ A feature is **done** when:
 ---
 
 ## 💻 How to Run
+***WIP***
 
-WIP
+---
