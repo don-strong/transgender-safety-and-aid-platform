@@ -1,78 +1,57 @@
-# 🧭 CS 301 Group Project — README Template
-
-Use this README as the front page of your team’s GitHub repository.  
-Fill out every section clearly. The **FlowSpace** example is shown in *italics* to demonstrate what a complete entry looks like.
+# 🧭 CS 301 Group Project — Transgender Safety & Aid Platform
 
 ---
 
 ## 📘 Project Name
-**Your Entry:**  
-> *(e.g., FlowSpace)*  
-A smart scheduling assistant that helps users maximize contiguous blocks of personal well-being time by reorganizing flexible events in their calendar.
+**Trans Safety (temp title)**  
+A community-driven platform designed to help transgender individuals locate safe, inclusive, and affirming businesses and services. The project connects users to verified resources such as healthcare providers, retail stores, and personal care services—while allowing them to share reviews, highlight safe spaces, and contribute to a supportive network of trusted locations.
 
 ---
 
 ## 👥 Group Members / Contributors
-**Your Entry:**  
+Original Project Idea: Hayley
 | Name | Role | GitHub Username |
 |------|------|-----------------|
-| Alice Example | Project Manager / Developer | @alice-example |
-| Bob Example | Frontend Developer | @bob-example |
-| Carol Example | Backend Developer | @carol-example |
-| Dave Example | QA / Documentation | @dave-example |
-
-*(Include all team members with their primary roles.)*
+| Aaron Alaman | Project Manager / Backend Developer / Documentation | @aaronalaman |
+| Justin Brown | Frontend Developer / Tester / Documentation | @sixplanet312 |
 
 ---
 
 ## 🧭 Brief Background About the Project
-**Your Entry:**  
-> *(Example:)*  
-Modern life often fragments our days with meetings, alerts, and micro-tasks. **FlowSpace** helps users reclaim their time by analyzing their calendar and reorganizing flexible events to preserve long, uninterrupted periods of personal focus or rest.
-
-Your description should summarize:
-- The **problem** your app addresses  
-- The **target users**  
-- The **benefit/value** your solution provides  
+Transgender individuals often face challenges finding safe, affirming, and inclusive spaces for everyday needs such as healthcare, retail, and personal care. Many existing platforms lack proper verification or community-driven insight to ensure these environments are genuinely supportive. Transgender Safety & Aid (TSA) addresses this issue by providing a centralized platform that connects users to verified, trans-friendly businesses and services. Through features like community reviews, safe space tagging, and categorization by service type, TSA empowers users to make informed decisions and fosters a stronger sense of safety and belonging within their communities.
 
 ---
 
-## ⚙️ Current Features
-**Your Entry:**  
-> *(Example:)*  
-- Well-Being Block Optimizer — finds the longest contiguous free time each day  
-- Smart Re-Scheduling — recommends moving flexible events to protect downtime  
-- Balance Dashboard — visualizes work vs. personal time each week  
-- Reflection Prompts — short daily check-ins that improve future suggestions  
-- Notification System — gentle reminders to preserve your “flow blocks”
-
-List all features that are **currently implemented** or **in progress**.
+## ⚙️ Current Features 
+1. Filter & Search Functionality — users can search for businesses by name, location, or keywords and apply filters for service type.
+2. Service Categorization — businesses are organized by categories such as healthcare, retail, or personal care.
+3. User Account Creation & Login — enables users to create accounts, securely log in, and access personalized features.
+4. User Reviews & Ratings — allows users to submit reviews and ratings for businesses (in progress).
+5. Defined Safe Spaces Marking — businesses and services are marked as “safe-to-go” or affirming.
+6. Community Tagging & Highlight Features — users can highlight specific affirming aspects such as gender-neutral bathrooms or staff training (in progress).
+7. Database Integration — MongoDB connection stores all user accounts, business listings, and reviews (in progress).
 
 ---
 
 ## 🧩 Planned Features / Future Work
-**Your Entry:**  
-> *(Example:)*  
-- Calendar sync (Google, Outlook, Apple)  
-- AI-assisted schedule optimization  
-- Mood trend visualizations  
-- Shared calendar support for households or teams
+1. Verification & Anti-Griefing System — new accounts must verify identity, be verified by existing users, or wait a set period before contributing safe-space markers.
+2. Report & Moderation Tools — allow users to flag false or malicious entries and enable moderators to review and take action.
+3. Mobile App Development — extend the desktop platform to mobile devices for broader accessibility.
+4. Enhanced Filtering & Sorting Options — advanced search filters, sorting by user ratings, or location proximity.
+5. Community Engagement Features — additional tagging, discussion forums, or support networks within the app.
 
 ---
 
 ## 📅 Week-by-Week Plan
-*(This should align with your project’s real timeline — update each week’s goals.)*
-
-| **Week** | **Milestone / Deliverables** | **Owners** | **Evidence (PRs/Links/Demos)** |
-|-----------|------------------------------|-------------|--------------------------------|
-| 1 | Define functional requirements; set up repo | Alice, Bob | README.md, requirements doc |
-| 2 | Create wireframes + initial backend skeleton | Carol, Dave | `/design`, `/api` folders |
-| 3 | Implement Core Function A (calendar parser) | Team | Commit hash, screenshots |
-| 4 | Integrate dashboard + basic UI | Bob | Deployed demo |
-| 5 | Add rescheduling logic | Carol | Pull request #23 |
-| 6 | Refine algorithm, write tests | Dave | Test coverage report |
-| 7 | Add user reflections + notifications | Alice | Feature branch merge |
-| 8 | Final polish + presentation | Team | Video demo, final slides |
+| **Week**        | **Milestone / Deliverables**                                                                                                                 | **Owners** | **Evidence (PRs/Links/Demos)**                                  |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------- |
+| Oct 26 – Nov 1  | Research & contact businesses; set up MongoDB and initial data structure; set up JavaFX with Maven and connect to MongoDB                    | Team       | GitHub repo commits, README.md, MongoDB schema file             |
+| Nov 2 – Nov 8   | Focus on layout and design of the UI; begin structuring pages (navigation and content panels)                                                | Team       | Screenshots of UI wireframes, commit history                    |
+| Nov 9 – Nov 15  | Implement search and filter functionality; add service categories; display search results dynamically                                        | Team       | Commit hash, demo screenshots or GIF of search/filter working   |
+| Nov 16 – Nov 22 | Implement user account creation and login; integrate database for user data; add input validation and error handling                         | Team       | PRs for authentication module, test cases, demo login           |
+| Nov 23 – Nov 29 | Develop user review and rating system; connect reviews to businesses in the database                                                         | Team       | Commit hash, screenshots of reviews being submitted/displayed   |
+| Nov 30 – Dec 6  | Refine UI design and accessibility; implement stretch goals (verification system, moderation tools); conduct testing; finalize documentation | Team       | Pull requests, screenshots, test reports, updated documentation |
+| Dec 7 – Dec 10  | Final review and polish; ensure full functionality between JavaFX and MongoDB; resolve remaining issues; submit final project                | Team       | Final commit hash, video demo, final report              |
 
 ---
 
@@ -87,27 +66,6 @@ A feature is **done** when:
 ---
 
 ## 💻 How to Run
+***WIP***
 
-**Your Entry:**
-> *(Example: FlowSpace)*
-
-### 1. Clone Repository
-```
-git clone https://github.com/example-url/flowspace.git
-cd flowspace
-```
-
-### 2. Backend Setup (Python/Flask)
-```
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-flask run
-```
-
-### 3. Frontend Setup (React)
-```
-cd client
-npm install
-npm start
-```
+---
