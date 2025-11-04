@@ -14,19 +14,27 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
+        <javafx.version>17.0.9</javafx.version>
     </properties>
 
     <dependencies>
+        <!-- JavaFX dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.9</version>
+            <version>${javafx.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.9</version>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- MongoDB Sync Driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>5.1.0</version>
         </dependency>
     </dependencies>
 
@@ -39,7 +47,7 @@
 
     <build>
         <plugins>
-            <!-- Java compiler plugin -->
+            <!-- Compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -49,7 +57,7 @@
                 </configuration>
             </plugin>
 
-            <!-- The JavaFX plugin (required for mvn javafx:run) -->
+            <!-- JavaFX Maven plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -58,6 +66,16 @@
                     <mainClass>io.transsafety.Main</mainClass>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>io.transsafety.DBTester</mainClass>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
