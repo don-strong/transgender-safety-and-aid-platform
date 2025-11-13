@@ -12,7 +12,7 @@ A community-driven platform designed to help transgender individuals locate safe
 Original Project Idea: Hayley
 | Name | Role | GitHub Username |
 |------|------|-----------------|
-| Aaron Alaman | Project Manager / Backend Developer / Documentation | @aaronalaman |
+| Aaron Alaman | Project Manager / Backend Developer / Tester / Documentation | @aaronalaman |
 | Justin Brown | Frontend Developer / Tester / Documentation | @sixplanet312 |
 
 ---
@@ -23,13 +23,13 @@ Transgender individuals often face challenges finding safe, affirming, and inclu
 ---
 
 ## ⚙️ Current Features 
-1. Filter & Search Functionality — users can search for businesses by name, location, or keywords and apply filters for service type.
+1. Filter & Search Functionality — users can search for businesses by name, location, or keywords and apply filters for service type (Upcoming).
 2. Service Categorization — businesses are organized by categories such as healthcare, retail, or personal care.
-3. User Account Creation & Login — enables users to create accounts, securely log in, and access personalized features.
-4. User Reviews & Ratings — allows users to submit reviews and ratings for businesses (in progress).
+3. User Account Creation & Login — enables users to create accounts, securely log in, and access personalized features (In Progress).
+4. User Reviews & Ratings — allows users to submit reviews and ratings for businesses.
 5. Defined Safe Spaces Marking — businesses and services are marked as “safe-to-go” or affirming.
-6. Community Tagging & Highlight Features — users can highlight specific affirming aspects such as gender-neutral bathrooms or staff training (in progress).
-7. Database Integration — MongoDB connection stores all user accounts, business listings, and reviews (in progress).
+6. Community Tagging & Highlight Features — users can highlight specific affirming aspects such as gender-neutral bathrooms or staff training.
+7. Database Integration — MongoDB connection stores all user accounts, business listings, and reviews (COMPLETED).
 
 ---
 
@@ -42,16 +42,16 @@ Transgender individuals often face challenges finding safe, affirming, and inclu
 
 ---
 
-## 📅 Week-by-Week Plan
-| **Week**        | **Milestone / Deliverables**                                                                                                                 | **Owners** | **Evidence (PRs/Links/Demos)**                                  |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------- |
-| Oct 26 – Nov 1  | Research & contact businesses; set up MongoDB and initial data structure; set up JavaFX with Maven and connect to MongoDB                    | Team       | GitHub repo commits, README.md, MongoDB schema file             |
-| Nov 2 – Nov 8   | Focus on layout and design of the UI; begin structuring pages (navigation and content panels)                                                | Team       | Screenshots of UI wireframes, commit history                    |
-| Nov 9 – Nov 15  | Implement search and filter functionality; add service categories; display search results dynamically                                        | Team       | Commit hash, demo screenshots or GIF of search/filter working   |
-| Nov 16 – Nov 22 | Implement user account creation and login; integrate database for user data; add input validation and error handling                         | Team       | PRs for authentication module, test cases, demo login           |
-| Nov 23 – Nov 29 | Develop user review and rating system; connect reviews to businesses in the database                                                         | Team       | Commit hash, screenshots of reviews being submitted/displayed   |
-| Nov 30 – Dec 6  | Refine UI design and accessibility; implement stretch goals (verification system, moderation tools); conduct testing; finalize documentation | Team       | Pull requests, screenshots, test reports, updated documentation |
-| Dec 7 – Dec 10  | Final review and polish; ensure full functionality between JavaFX and MongoDB; resolve remaining issues; submit final project                | Team       | Final commit hash, video demo, final report              |
+## 🗓️ Schedule Alignment & Progress Review  
+
+| **Week** | **Milestone / Deliverables** | **Owners** | **Evidence (PRs / Links / Demos)** | **Status** |
+|-----------|------------------------------|-------------|------------------------------------|-------------|
+| **Oct 26 – Nov 1** | Set up MongoDB and establish connection. Configure JavaFX with Maven and dependencies. Verify CRUD operations via `DBTest.java`. | Aaron | GitHub commits, `DBTest.java` test results, MongoDB connection screenshot/log | ✅ **Completed** <br> MongoDB successfully set up and integrated with JavaFX. CRUD operations verified and functional. |
+| **Nov 2 – Nov 8 & Nov 9 – Nov 15** | Implement user account creation and login functionality. Add database integration for user data storage and retrieval. Include input validation and error handling for authentication. Begin UI layout and design of necessary windows. | Team | PRs for authentication logic, screenshots/demos of login UI, database connection tests (`DBTest.java`) | ⚙️ **In Progress** <br> Focus shifted to user account creation earlier than planned. Awaiting verification on Justin’s local machine to ensure `DBTest.java` success. Once confirmed, `users` collection implementation will proceed. |
+| **Nov 16 – Nov 22** | Implement search and filter functionality. Add service categories (healthcare, retail, personal care, etc.). Display dynamic search results. | Team | Commit history, screenshots or demo of search/filter interface | ⏳ **Not Started (Upcoming)** |
+| **Nov 23 – Nov 29** | Develop user review and rating system. Connect reviews to corresponding businesses in the database. | Team | PRs or commits showing review logic integration, UI demo of review submission | ⏳ **Not Started** |
+| **Nov 30 – Dec 6** | Define Safe Space Markings (per Requirements Specification). Continue refining UI design and accessibility improvements. Adjust schedule as needed for holidays or extended tasks. | Team | Commit references, updated UI screenshots, documentation changes | ⏳ **Not Started** <br> Timeline may shift due to availability or feature extension. |
+| **Dec 7 – Dec 10 (Final)** | Final review and polish. Ensure full functionality with each feature. Resolve any remaining issues. Finalize documentation and submit project. | Team | Final commits, video demo, setup guide, final report | ⏳ **Not Started** |
 
 ---
 
@@ -67,5 +67,11 @@ A feature is **done** when:
 
 ## 💻 How to Run
 ***WIP***
+Note (will finalize for submission later):
+- java
+- mvn
+- javafx
+- mongodb driver 
+- mongo compass environment download
 
 ---
