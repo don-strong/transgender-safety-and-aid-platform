@@ -1,18 +1,46 @@
-
 /**
- * Implemented by: Aaron
+ * Implemented by @aaron-alaman
  * 
- * built-in methods of MongoDB Java Driver 
- * - getName() : gets database name
- * - listCollectionNames()
+ * Database class for MongoDB operations.
+ * Contains CRUD operations (Create, Read, Update, Delete).
+ *
+ * ## Built-in MongoDB Java Driver methods used ##
+ * - getName()             : Gets the name of the connected database.
+ * - listCollectionNames() : Lists all collections in the database.
+ * - createCollection()    : Creates a new collection in the database.
+ * - into()                : Collects all documents from a query (FindIterable) into a Java list.
+ * - eq()                  : Filters documents where a field equals a specific value (used in queries).
+ * - set()                 : Updates a specific field in a document with a new value (used in updates).
+ *
+ * ## Methods ##
+ * - insertOneDocument()   : Inserts a single document into a collection.
+ * - getAllDocuments()     : Retrieves all documents from a collection.
+ * - findDocuments()       : Retrieves documents that match a specific field-value pair.
+ * - updateOneDocument()   : Updates the first document that matches a filter.
+ * - deleteOneDocument()   : Deletes the first document that matches a filter.
+ * - close()               : Safely closes the connection whenever needed.
+ *
+ * TODO: discuss if these are needed
+ * ## Optional (don't think it's needed) ##
+ * - updateManyDocuments() : Updates multiple documents at once.
+ * - deleteManyDocuments() : Deletes multiple documents at once.
  */
 
+// TODO: (personal to-do) better comments
 
 package io.transsafety;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.Document;
 
 public class Database 
 {
@@ -45,9 +73,9 @@ public class Database
     }
 
     /**
-     * Returns the connected MongoDB instance.
-     * 
-     * @return the connected MongoDB
+     * Returns the active MongoDatabase instance connected to the server.
+     *
+     * @return MongoDatabase the connected database instance
      */
     public MongoDatabase getDatabase() 
     {
@@ -55,12 +83,32 @@ public class Database
     }
 
     /**
-     * Creates a new collection in the connected DB if it does 
-     * not already exist.
+     * Insert
+     * 
+     * @param collectionName (for locating where to put the document)
+     * @param document (the name of the document inserted)
+     */
+
+    public void insertOneDocument(String collectionName, Document document)
+    {
+        try 
+        {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            collection.insertOne(document);
+            System.out.println("Document inserted successfully into '" + collectionName + "'");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Failed to insert document: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Create
      * 
      * @param collectionName (name of collection to create)
      */
-    public void createCollection(String collectionName) {
+    public void createNewCollection(String collectionName) {
         try {
             boolean exists = false;
 
@@ -72,6 +120,7 @@ public class Database
             }
 
             if (!exists) {
+                // default createCollection of MongoDB (not recursive)
                 database.createCollection(collectionName);
                 System.out.println("Collection '" + collectionName + "' created successfully!");
             } else {
@@ -81,6 +130,86 @@ public class Database
             System.out.println("Failed to create collection: " + e.getMessage());
         }
     }
+
+    /**
+     * Read
+     * 
+     * @param collectionName
+     * @return
+     */
+    public List<Document> getAllDocuments(String collectionName)
+    {
+        List<Document> docs = new ArrayList<>();
+        try 
+        {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            collection.find().into(docs); 
+        }
+        catch (Exception e) 
+        {
+            System.out.println("Failed to get documents: " + e.getMessage());
+        }
+        return docs;
+    }
+
+    public List<Document> findDocuments(String collectionName, String field, Object value)
+    {
+        List<Document> docs = new ArrayList<>();
+        try 
+        {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            collection.find(Filters.eq(field, value)).into(docs);
+        }
+        catch (Exception e) 
+        {
+            System.out.println("Failed to find documents: " + e.getMessage());
+        }
+        return docs;
+    }
+
+    /**
+     * Update 
+     * 
+     * @param collectionName
+     * @param field
+     * @param value
+     * @param updateField
+     * @param newValue
+     */
+    public void updateOneDocument(String collectionName, String field, Object value, String updateField, Object newValue)
+    {
+        try 
+        {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            collection.updateOne(Filters.eq(field, value), Updates.set(updateField, newValue));
+            System.out.println("Document updated successfully in '" + collectionName + "'");
+        }
+        catch (Exception e) 
+        {
+            System.out.println("Failed to update document: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Delete
+     * 
+     * @param collectionName
+     * @param field
+     * @param value
+     */
+    public void deleteOneDocument(String collectionName, String field, Object value) 
+    {
+        try 
+        {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            collection.deleteOne(Filters.eq(field, value));
+            System.out.println("Document deleted successfully from '" + collectionName + "'");
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Failed to delete document: " + e.getMessage());
+        }
+    }    
     
     /**
      * Closes the MongoDB client connection.
