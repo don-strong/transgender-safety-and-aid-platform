@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.transsafety.RegisterController" spacing="10" alignment="CENTER" padding="20">
+    <Label text="Create a New Account" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <TextField fx:id="usernameField" promptText="Username" maxWidth="250"/>
+    <TextField fx:id="emailField" promptText="Email" maxWidth="250"/>
+    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="250"/>
+    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" maxWidth="250"/>
+    <Button text="Register" onAction="#handleRegister" maxWidth="250"/>
+    <Label fx:id="errorLabel" textFill="red"/>
+
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+
+    <label text="Create a New Account"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <textfield fx:id="usernameField"
+               promptText="Username"
+               maxWidth="300"/>    
+
+    <textfield fx:id="emailField"
+               promptText="Email"
+                maxWidth="300"/>   
+
+    <passwordfield fx:id="passwordField"
+                   promptText="Password"
+                   maxWidth="300"/>
+
+    <passwordfield fx:id="confirmPasswordField"
+                   promptText="Confirm Password"
+                    maxWidth="300"/>
+
+    <button text="Register"
+            onAction="#onRegister"
+            maxWidth="150"/>
+
+    <button text="Back to Login"
+            onAction="#onGoToLogin"
+            maxWidth="150"/>
+
+    <label fx:id="statusLabel"
+            style="-fx-text-fill: red;"/>
+
+</VBox>

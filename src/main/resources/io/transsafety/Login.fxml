@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="12" alignment="CENTER"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.transsafety.LoginController">
+
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+
+    <Label text="Welcome to TransSafety"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="usernameOrEmailField"
+               promptText="Username or Email"
+               maxWidth="300"/>
+
+    <PasswordField fx:id="passwordField"
+                   promptText="Password"
+                   maxWidth="300"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Login" onAction="#onLogin"/>
+        <Button text="Create Account" onAction="#onGoToRegister"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" style="-fx-text-fill: red;"/>
+</VBox>
+
