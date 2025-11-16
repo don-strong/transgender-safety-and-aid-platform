@@ -5,10 +5,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SceneSwitcher {
+public class SceneSwitcher 
+{
 
     public static void switchTo(Stage stage, String fxmlPath, int width, int height) {
-        try {
+        try 
+        {
             FXMLLoader loader = new FXMLLoader(SceneSwitcher.class.getResource(fxmlPath));
             Parent root = loader.load();
 
@@ -16,17 +18,22 @@ public class SceneSwitcher {
             stage.setScene(scene);
             stage.show();
 
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Failed to load FXML: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
-    public static void switchToLoginScene(Stage stage) {
+    // TODO: Set dimensions as stated in diagram
+    public static void switchToLoginScene(Stage stage) 
+    {
         switchTo(stage, "/io/transsafety/Login.fxml", 600, 400);
     }
 
-    public static void switchToRegisterScene(Stage stage) {
+    public static void switchToRegisterScene(Stage stage) 
+    {
         switchTo(stage, "/io/transsafety/Register.fxml", 600, 400);
     }
 }
