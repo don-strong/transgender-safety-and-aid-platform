@@ -20,6 +20,10 @@
                promptText="Email"
                maxWidth="260"/>
 
+    <TextField fx:id="confirmEmailField"
+               promptText="Confirm Email"
+               maxWidth="260"/>
+
     <PasswordField fx:id="passwordField"
                    promptText="Password"
                    maxWidth="260"/>
@@ -27,6 +31,7 @@
     <PasswordField fx:id="confirmPasswordField"
                    promptText="Confirm Password"
                    maxWidth="260"/>
+
 
     <Button text="Register"
             maxWidth="260"
