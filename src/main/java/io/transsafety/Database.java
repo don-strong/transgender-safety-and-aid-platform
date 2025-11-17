@@ -2,31 +2,30 @@
  * Implemented by @aaron-alaman
  * 
  * Database class for MongoDB operations.
- * Contains CRUD operations (Create, Read, Update, Delete).
+ * Contains CRUD operations (Create (+ Insert), Read, Update, Delete) 
+ * and proper close connection.
  *
  * ## Built-in MongoDB Java Driver methods used ##
  * - getName()             : Gets the name of the connected database.
  * - listCollectionNames() : Lists all collections in the database.
  * - createCollection()    : Creates a new collection in the database.
- * - into()                : Collects all documents from a query (FindIterable) into a Java list.
- * - eq()                  : Filters documents where a field equals a specific value (used in queries).
- * - set()                 : Updates a specific field in a document with a new value (used in updates).
+ * - into()                : Collects all documents from a query (FindIterable) 
+ *                           into a Java list.
+ * - eq()                  : Filters documents where a field equals a specific 
+ *                           value (used in queries).
+ * - set()                 : Updates a specific field in a document with a new
+ *                           value (used in updates).
  *
  * ## Methods ##
  * - insertOneDocument()   : Inserts a single document into a collection.
  * - getAllDocuments()     : Retrieves all documents from a collection.
- * - findDocuments()       : Retrieves documents that match a specific field-value pair.
+ * - findDocuments()       : Retrieves documents that match a specific 
+ *                           field-value pair.
  * - updateOneDocument()   : Updates the first document that matches a filter.
  * - deleteOneDocument()   : Deletes the first document that matches a filter.
  * - close()               : Safely closes the connection whenever needed.
  *
- * TODO: discuss if these are needed
- * ## Optional (don't think it's needed) ##
- * - updateManyDocuments() : Updates multiple documents at once.
- * - deleteManyDocuments() : Deletes multiple documents at once.
  */
-
-// TODO: (personal to-do) better comments
 
 package io.transsafety;
 
@@ -50,10 +49,12 @@ public class Database
     private MongoClient mongoClient;
 
     /**
-     * Constructs a new {@code MongoDB} object.
-     * Establishes a connection to the MongoDB server on {@code localhost:27017}.
-     * If the database {@code transsafety} does not exist, it will be created;
-     * otherwise, the existing database will be opened.
+     * - Constructs a new {@code MongoDB} Database object.
+     * - Establishes a connection to the MongoDB server at 
+     *   {@code localhost:27017}.
+     * - Opens the database {@code transsafety}; if it does not 
+     *   exist, it will be created.
+     * - Ensures that the collection {@code users} exists.
      */
     public Database() 
     {
@@ -65,6 +66,7 @@ public class Database
             mongoClient = MongoClients.create(connectionString);
             database = mongoClient.getDatabase(databaseName);
             System.out.println("Connected to database: " + database.getName());
+            createNewCollection("users"); 
         }
         catch (Exception e)
         {
@@ -73,7 +75,7 @@ public class Database
     }
 
     /**
-     * Returns the active MongoDatabase instance connected to the server.
+     * Returns the active MongoDB instance connected to the server.
      *
      * @return MongoDatabase the connected database instance
      */
@@ -83,7 +85,7 @@ public class Database
     }
 
     /**
-     * Insert
+     * Create - inserts a new row of information.
      * 
      * @param collectionName (for locating where to put the document)
      * @param document (the name of the document inserted)
@@ -104,35 +106,45 @@ public class Database
     }
 
     /**
-     * Create
+     * Create - creates a new collection. If collection exists, no new 
+     * collections will be created.
      * 
      * @param collectionName (name of collection to create)
      */
-    public void createNewCollection(String collectionName) {
-        try {
+    public void createNewCollection(String collectionName) 
+    {
+        try 
+        {
             boolean exists = false;
 
-            for (String name : database.listCollectionNames()) {
-                if (name.equals(collectionName)) {
+            for (String name : database.listCollectionNames()) 
+            {
+                if (name.equals(collectionName)) 
+                {
                     exists = true;
                     break;
                 }
             }
 
-            if (!exists) {
-                // default createCollection of MongoDB (not recursive)
+            if (!exists) 
+            {
                 database.createCollection(collectionName);
                 System.out.println("Collection '" + collectionName + "' created successfully!");
-            } else {
+            } 
+            else 
+            {
                 System.out.println("Collection '" + collectionName + "' already exists.");
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Failed to create collection: " + e.getMessage());
         }
     }
 
     /**
-     * Read
+     * Read - iterates through all documents and returns a list 
+     * of exisitng documents.
      * 
      * @param collectionName
      * @return
@@ -168,7 +180,7 @@ public class Database
     }
 
     /**
-     * Update 
+     * Update - updates a specific document.
      * 
      * @param collectionName
      * @param field
@@ -191,7 +203,7 @@ public class Database
     }
 
     /**
-     * Delete
+     * Delete - deletes a specific document.
      * 
      * @param collectionName
      * @param field
