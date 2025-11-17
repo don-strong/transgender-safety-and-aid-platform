@@ -1,8 +1,6 @@
+// TODO: beginning of file documentation
 /**
- * Added new methods : @aaron-alaman
- * - validateInputs()
- * - fetchUser()
- * - passwordMatches()
+ * 
  */
 
 package io.transsafety;
@@ -14,20 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-// added import - @aaron-alaman
 import org.bson.Document;
 
 public class LoginController 
 {
 
-    // fixed structure
-    // TODO: email option 
     @FXML private TextField usernameOrEmailField;
     @FXML private PasswordField passwordField;
     @FXML private Label statusLabel;
-
-    // added variable - @aaron-alaman
     private final Database db = new Database();
 
     /**
@@ -43,14 +35,21 @@ public class LoginController
         String password = passwordField.getText();
         
 
-        String error = validateInputs(username, password);
+        String error = validateLoginInput(username, password);
         if (error != null) 
         {
             statusLabel.setText(error);
             return;
         }
 
-        Document user = fetchUser(username);
+        Document user = fetchUserName(username);
+
+        if (user == null) 
+        {
+            // if user did not input username, find email
+            user = fetchUserEmail(username);
+        }
+
         if (user == null) 
         {
             statusLabel.setText("User not found.");
@@ -65,7 +64,8 @@ public class LoginController
 
         statusLabel.setText("Login successful!");
 
-        // TODO: switch to dashboard scene
+        // TODO: switch to dashboard scene - NEXT FEATURE WIP
+        // TODO: recommend a different file?
     }
 
     /**
@@ -75,7 +75,7 @@ public class LoginController
      * @param password
      * @return
      */
-    private String validateInputs(String username, String password)
+    private String validateLoginInput(String username, String password)
     {
         if (username.isEmpty() || password.isEmpty()) 
         {
@@ -91,14 +91,16 @@ public class LoginController
      * @param username
      * @return
      */
-    private Document fetchUser(String username)
+    private Document fetchUserName(String username)
     {
         List<Document> users = db.findDocuments("users", "username", username);
         return users.isEmpty() ? null : users.get(0);
+    }
 
-        /* // for later
-        users = db.findDocuments("users", "email", input);
-        return users.isEmpty() ? null : users.get(0); */
+    private Document fetchUserEmail(String email)
+    {
+        List<Document> userEmail = db.findDocuments("users", "email", email);
+        return userEmail.isEmpty() ? null : userEmail.get(0);
     }
 
     /**

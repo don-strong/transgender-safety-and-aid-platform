@@ -1,10 +1,6 @@
+// TODO: beginning of file documentation
 /**
- * Added new methods : @aaron-alaman
- * - validateFields()
- * - usernameExists()
- * - emailExists() : NOT YET FUNCTIONAL UNTIL PROPERLY ADDED TO JAVAFX
- * - createUser()
- * - handleCancel()
+ * 
  */
 
 package io.transsafety;
@@ -15,25 +11,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-// added import - @aaron-alaman
 import org.bson.Document;
 
 
 public class RegisterController 
 {
-    // fixed structure
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
-    @FXML private TextField emailField; // for later use
-    @FXML private TextField confirmEmailField; // for later use 
+    @FXML private TextField emailField; 
+    @FXML private TextField confirmEmailField; 
     @FXML private Label errorLabel;
-
-    // added variable - @aaron-alaman
     private final Database db = new Database();
-
-    // TODO: add email functionality, there was no code other than username
 
     /**
      * Handles the user registration process: validates input, checks if 
@@ -49,7 +38,7 @@ public class RegisterController
         String email = emailField.getText().trim(); // for later use
         String confirmEmail = confirmEmailField.getText().trim(); // for later use 
 
-        String error = validateFields(username, password, confirmPassword, email, confirmEmail);
+        String error = validateRegisterFields(username, password, confirmPassword, email, confirmEmail);
         if (error != null) 
         {
             errorLabel.setText(error);
@@ -89,7 +78,7 @@ public class RegisterController
      * @param email
      * @param confirmEmail
      */
-    private String validateFields(String username, String password, String confirmPassword, String email, String confirmEmail)
+    private String validateRegisterFields(String username, String password, String confirmPassword, String email, String confirmEmail)
     {
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) 
         {
@@ -98,7 +87,7 @@ public class RegisterController
 
         if (!username.matches("^[a-zA-Z0-9_]{3,20}$")) 
         {
-            return "Username must be 3–20 characters long and can only contain letters, numbers, and underscores.";
+            return "Username must be 3-20 characters long and can only contain letters, numbers, and underscores.";
         }
 
         if (!password.equals(confirmPassword)) 
