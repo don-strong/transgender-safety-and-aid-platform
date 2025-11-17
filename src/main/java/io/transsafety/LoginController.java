@@ -41,6 +41,7 @@ public class LoginController
     {
         String username = usernameOrEmailField.getText().trim();
         String password = passwordField.getText();
+        
 
         String error = validateInputs(username, password);
         if (error != null) 

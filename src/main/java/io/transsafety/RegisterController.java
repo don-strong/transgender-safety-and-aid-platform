@@ -26,6 +26,8 @@ public class RegisterController
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField emailField; // for later use
+    @FXML private TextField confirmEmailField; // for later use 
     @FXML private Label errorLabel;
 
     // added variable - @aaron-alaman
@@ -44,8 +46,10 @@ public class RegisterController
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        String email = emailField.getText().trim(); // for later use
+        String confirmEmail = confirmEmailField.getText().trim(); // for later use 
 
-        String error = validateFields(username, password, confirmPassword);
+        String error = validateFields(username, password, confirmPassword, email, confirmEmail);
         if (error != null) 
         {
             errorLabel.setText(error);
@@ -58,7 +62,14 @@ public class RegisterController
             return;
         }
 
-        createUser(username, password);
+        // checks for existing email 
+        if (emailExists(email)) // for later use
+        {
+            errorLabel.setText("Email already exists.");
+            return;
+        }
+
+        createUser(username, password, email);
 
         errorLabel.setText("Registration successful!");
     }
@@ -75,9 +86,10 @@ public class RegisterController
      * @param username
      * @param password
      * @param confirmPassword
-     * @return
+     * @param email
+     * @param confirmEmail
      */
-    private String validateFields(String username, String password, String confirmPassword)
+    private String validateFields(String username, String password, String confirmPassword, String email, String confirmEmail)
     {
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) 
         {
@@ -99,6 +111,22 @@ public class RegisterController
             return "Password must be at least 6 characters.";
         }
 
+        if (email.isEmpty() || confirmEmail.isEmpty()) 
+        {
+            return "Email fields cannot be empty.";
+        }  
+
+        if (!email.equals(confirmEmail)) 
+        {
+            return "Emails do not match.";
+        }
+
+        // email format check, requires at least one "@" and "."
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) 
+        {
+            return "Invalid email format.";
+        }   
+
         return null; 
     }
 
@@ -116,18 +144,18 @@ public class RegisterController
     }
 
 
-    /*/**
+    /**
      * Checks if an email already exists in the database.
      * Uses findDocuments() from Database.java
      *
      * @param email the email to check
      * @return true if the email exists, false otherwise
-     /
+     */
     private boolean emailExists(String email) 
     {
         List<Document> results = db.findDocuments("users", "email", email);
         return !results.isEmpty();
-    }*/ // code for later
+    } // code for later
 
     /**
      * Creates a new user.
@@ -136,35 +164,23 @@ public class RegisterController
      * @param username
      * @param password
      */
-    private void createUser(String username, String password)
+    private void createUser(String username, String password, String email)
     {
         Document newUser = new Document("username", username)
-                .append("password", password);
+        .append("password", password)
+        .append("email", email);
 
         db.insertOneDocument("users", newUser);
     }
 
-
-    // TODO: add handleCancel() appropriately
     /**
-     * 
-     */
-    @FXML
-    private void handleCancel() 
-    {
-        Stage stage = (Stage) usernameField.getScene().getWindow();
-        stage.close();
-    }
-
-    // TODO: Implement this
-    /**
-     * 
+     *  returns to the login screen when "Cancel" is clicked.
      */
     @FXML
     private void handleBackToLogin() 
     {
-        // Logic to return to the login screen
-        errorLabel.setText("Returning to login screen not implemented yet.");
-    }
+    Stage stage = (Stage) usernameField.getScene().getWindow();
+    SceneSwitcher.switchToLoginScene(stage);
+}
     
 }
