@@ -1,3 +1,8 @@
+// TODO: beginning of file documentation
+/**
+ * 
+ */
+
 package io.transsafety;
 
 import javafx.application.Application;
@@ -9,7 +14,7 @@ public class Main extends Application
     @Override
     public void start(Stage stage) 
     {
-        stage.setTitle("TransSafety");
+        stage.setTitle("Trans Safety");
         SceneSwitcher.switchToLoginScene(stage);  // Load Login.fxml
     }
 

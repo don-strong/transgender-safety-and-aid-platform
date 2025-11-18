@@ -1,3 +1,8 @@
+// TODO: beginning of file documentation
+/**
+ * 
+ */
+
 package io.transsafety;
 
 import javafx.fxml.FXMLLoader;
@@ -26,14 +31,13 @@ public class SceneSwitcher
         }
     }
 
-    // TODO: Set dimensions as stated in diagram
     public static void switchToLoginScene(Stage stage) 
     {
-        switchTo(stage, "/io/transsafety/Login.fxml", 600, 400);
+        switchTo(stage, "/io/transsafety/Login.fxml", 1024, 768);
     }
 
     public static void switchToRegisterScene(Stage stage) 
     {
-        switchTo(stage, "/io/transsafety/Register.fxml", 600, 400);
+        switchTo(stage, "/io/transsafety/Register.fxml", 1024, 768);
     }
 }
