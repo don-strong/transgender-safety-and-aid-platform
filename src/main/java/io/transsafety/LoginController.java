@@ -126,4 +126,16 @@ public class LoginController
         Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
         SceneSwitcher.switchToRegisterScene(stage);
     }
+
+
+    /**
+     * 
+     * @param event
+     */
+    @FXML
+    private void onGoToUserQuery(ActionEvent event) 
+    {
+        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
+        SceneSwitcher.switchToUserQueryScene(stage);
+    }
 }

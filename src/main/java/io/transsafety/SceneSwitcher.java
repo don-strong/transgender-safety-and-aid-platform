@@ -40,4 +40,11 @@ public class SceneSwitcher
     {
         switchTo(stage, "/io/transsafety/Register.fxml", 1024, 768);
     }
+
+    public static void switchToUserQueryScene(Stage stage) 
+    {
+        switchTo(stage, "/io/transsafety/UserQuery.fxml", 1024, 768);
+    }
+
+
 }
