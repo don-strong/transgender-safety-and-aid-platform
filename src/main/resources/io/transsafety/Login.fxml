@@ -26,7 +26,10 @@
     <HBox spacing="10" alignment="CENTER">
         <Button text="Login" onAction="#onLogin"/>
         <Button text="Create Account" onAction="#onGoToRegister"/>
+        <Button text="User Query Test" onAction="#onGoToUserQuery"/>
     </HBox>
+
+
 
     <Label fx:id="statusLabel" style="-fx-text-fill: red;"/>
 </VBox>
