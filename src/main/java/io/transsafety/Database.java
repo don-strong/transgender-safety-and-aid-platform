@@ -67,6 +67,7 @@ public class Database
             database = mongoClient.getDatabase(databaseName);
             System.out.println("Connected to database: " + database.getName());
             createNewCollection("users"); 
+            createNewCollection("businesses"); 
         }
         catch (Exception e)
         {
