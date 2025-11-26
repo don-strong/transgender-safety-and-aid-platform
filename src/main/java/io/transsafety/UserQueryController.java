@@ -93,12 +93,12 @@ public class UserQueryController {
         box.setStyle("-fx-padding: 10; -fx-border-color: black; -fx-border-width: 1; -fx-spacing: 6;");
 
         // Extract fields from MongoDB document
-        String name = doc.getString("businessName");
-        String type = doc.getString("businessType");
-        String phone = doc.getString("businessPhone");
-        String email = doc.getString("businessEmail");
-        String website = doc.getString("website");   // hyperlink field
-        String transInclusive = doc.getString("transInclusive");   // yes/no safety field
+        String name = doc.getString("name");
+        String type = doc.getString("business_type");
+        String phone = doc.getString("contact_by_phone");
+        String email = doc.getString("contact_by_email");
+        String website = doc.getString("link_to_website");
+        String transInclusive = doc.getString("trans_inclusive");
 
         // Add fields to UI
         box.getChildren().add(new Label("Name: " + name));
