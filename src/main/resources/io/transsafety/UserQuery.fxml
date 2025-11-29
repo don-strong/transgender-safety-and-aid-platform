@@ -19,36 +19,69 @@
         </HBox>
     </top>
 
+    <!-- MAIN AREA -->
     <center>
-    <VBox spacing="20">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
 
-
-        <!-- TOP WINDOW -->
-        <ScrollPane fitToWidth="true" fitToHeight="true">
-            <VBox fx:id="businessWindow"
+            <!-- 🔹 SEARCH WINDOW -->
+            <VBox fx:id="searchWindow"
+                  prefHeight="100"
                   spacing="10"
-                  style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 10;"
-                  prefHeight="300">
-                <Label text="Business Database Window"
-                       style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-            </VBox>
-        </ScrollPane>
+                  style="-fx-border-color: black;
+                         -fx-border-width: 1;
+                         -fx-padding: 10;
+                         -fx-background-color: #f4f4f4;">
 
-        <!-- BOTTOM WINDOW -->
-        <ScrollPane fitToWidth="true" fitToHeight="true">
-            <VBox fx:id="reviewsWindow"
-                  spacing="10"
-                  style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 10;"
-                  prefHeight="300">
-                <Label text="User Reviews Window"
-                       style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-            </VBox>
-        </ScrollPane>
+                <Label text="Name:" />
+                <TextField fx:id="searchNameField"
+                           promptText="Enter business name"/>
 
-    </VBox>
-</center>
+                <Label text="City:" />
+                <TextField fx:id="searchCityField"
+                           promptText="Enter city"/>
+
+                <Label text="Business Type:" />
+                <ComboBox fx:id="businessTypeBox"
+                          promptText="Select a type"/>
+
+                <!-- BUTTONS -->
+                <HBox spacing="10">
+                    <Button text="Search" fx:id="searchButton"/>
+                    <Button text="Clear" fx:id="clearButton"/>
+                </HBox>
+                
+            </VBox>
+
+            <!-- 🔹 BUSINESS WINDOW -->
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <VBox fx:id="businessWindow"
+                      spacing="10"
+                      style="-fx-border-color: black;
+                             -fx-border-width: 2;
+                             -fx-padding: 10;"
+                      prefHeight="300">
+                    <Label text="Business Database Window"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                </VBox>
+            </ScrollPane>
+
+            <!-- 🔹 REVIEWS WINDOW -->
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <VBox fx:id="reviewsWindow"
+                      spacing="10"
+                      style="-fx-border-color: black;
+                             -fx-border-width: 2;
+                             -fx-padding: 10;"
+                      prefHeight="300">
+                    <Label text="User Reviews Window"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                </VBox>
+            </ScrollPane>
+
+        </VBox>
+    </center>
 
 </BorderPane>
