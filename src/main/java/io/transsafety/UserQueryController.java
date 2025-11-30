@@ -1,18 +1,16 @@
 package io.transsafety;
 
-import java.util.List;
-import java.util.ArrayList;
-
-// for opening hyperlinks via default browser
+import com.mongodb.client.MongoCollection;
 import java.awt.Desktop;
 import java.net.URI;
-
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import org.bson.Document;
 
 /* implemented by @Justin Brown
@@ -23,6 +21,24 @@ import org.bson.Document;
 * Also a back button to return to login screen. Later this will trigger a logout function
 * to clear session data.
 */
+
+
+
+/**
+ * Suggested some logic for the name search to make searching easier for users.
+ * Currently not implemented in the UI, but could be added later.
+ * 
+ * 
+String nameInput = searchNameField.getText().trim();
+
+List<Bson> filters = new ArrayList<>();
+
+// NAME SEARCH (substring, case-insensitive)
+if (!nameInput.isEmpty()) {
+    filters.add(Filters.regex("businessName", ".*" + Pattern.quote(nameInput) + ".*", "i"));
+}
+
+ */
 
 public class UserQueryController {
 
@@ -36,14 +52,37 @@ public class UserQueryController {
     @FXML
     public VBox reviewsWindow;
 
-    /**
-     * initialize() is automatically called when the FXML is loaded.
-     * It acts like a "constructor" for the scene.
-     * We load business data here so the window populates immediately.
-     */
     @FXML
-    public void initialize() {
+    private ComboBox<String> businessTypeBox;
+
+
+private void loadBusinessTypeOptions() {
+    try {
+        MongoCollection<Document> coll = db.getCollection("businesses");
+
+        List<String> types = coll.distinct("business_type", String.class)
+                                 .into(new ArrayList<>());
+
+        // Add default "Any"
+        types.add(0, "Any");
+
+        businessTypeBox.getItems().setAll(types);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+/**
+ * initialize() is automatically called when the FXML is loaded.
+ * It acts like a "constructor" for the scene.
+ * We load business data here so the window populates immediately.
+ */
+@FXML
+public void initialize() {
         loadBusinessData();
+        loadBusinessTypeOptions();
         // loadReviewsData();   
     }
 
@@ -132,4 +171,5 @@ public class UserQueryController {
         return box;
     }
 
+      
 }

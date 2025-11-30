@@ -35,10 +35,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bson.Document;
 
 public class Database 
@@ -234,5 +232,14 @@ public class Database
             mongoClient.close();
             System.out.println("MongoDB connection closed.");
         }
+    }
+
+    /**
+     * Returns the businesses collection from the database.
+     *
+     * @return MongoCollection<Document> the businesses collection
+     */
+    public MongoCollection<Document> getCollection(String name) {
+        return database.getCollection(name);
     }
 }
