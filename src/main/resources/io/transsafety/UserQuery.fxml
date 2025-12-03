@@ -7,7 +7,6 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.transsafety.UserQueryController">
 
-    <!-- BACK BUTTON -->
     <top>
         <HBox alignment="CENTER">
             <padding>
@@ -19,14 +18,12 @@
         </HBox>
     </top>
 
-    <!-- MAIN AREA -->
     <center>
         <VBox spacing="20">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- 🔹 SEARCH WINDOW -->
             <VBox fx:id="searchWindow"
                   prefHeight="100"
                   spacing="10"
@@ -47,15 +44,13 @@
                 <ComboBox fx:id="businessTypeBox"
                           promptText="Select a type"/>
 
-                <!-- BUTTONS -->
                 <HBox spacing="10">
-                    <Button text="Search" fx:id="searchButton"/>
-                    <Button text="Clear" fx:id="clearButton"/>
+                    <Button text="Search" fx:id="searchButton" onAction="#onSearchClicked"/>
+                    <Button text="Clear" fx:id="clearButton" onAction="#onClearClicked"/>
                 </HBox>
                 
             </VBox>
 
-            <!-- 🔹 BUSINESS WINDOW -->
             <ScrollPane fitToWidth="true" fitToHeight="true">
                 <VBox fx:id="businessWindow"
                       spacing="10"
@@ -68,7 +63,6 @@
                 </VBox>
             </ScrollPane>
 
-            <!-- 🔹 REVIEWS WINDOW -->
             <ScrollPane fitToWidth="true" fitToHeight="true">
                 <VBox fx:id="reviewsWindow"
                       spacing="10"

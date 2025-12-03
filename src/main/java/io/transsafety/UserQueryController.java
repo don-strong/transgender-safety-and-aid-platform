@@ -1,3 +1,18 @@
+/**
+ * TODO: Add proper documentation 
+ * TODO: reorganize code 
+ * 
+ */
+
+/* implemented by @Justin Brown
+*
+* Start of user interface after login. User will run queries from here using various input fields and buttons.
+* Displays two windows, one for user queries and one for displaying user reviews and ratings.
+*
+* Also a back button to return to login screen. Later this will trigger a logout function
+* to clear session data.
+*/
+
 package io.transsafety;
 
 import com.mongodb.client.MongoCollection;
@@ -12,75 +27,155 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.bson.Document;
+import javafx.scene.control.TextField;
+import com.mongodb.client.model.Filters;
+import java.util.regex.Pattern;
+import org.bson.conversions.Bson;
 
-/* implemented by @Justin Brown
-*
-* Start of user interface after login. User will run queries from here using various input fields and buttons.
-* Displays two windows, one for user queries and one for displaying user reviews and ratings.
-*
-* Also a back button to return to login screen. Later this will trigger a logout function
-* to clear session data.
-*/
-
-
-
-/**
- * Suggested some logic for the name search to make searching easier for users.
- * Currently not implemented in the UI, but could be added later.
- * 
- * 
-String nameInput = searchNameField.getText().trim();
-
-List<Bson> filters = new ArrayList<>();
-
-// NAME SEARCH (substring, case-insensitive)
-if (!nameInput.isEmpty()) {
-    filters.add(Filters.regex("businessName", ".*" + Pattern.quote(nameInput) + ".*", "i"));
-}
-
- */
-
-public class UserQueryController {
+public class UserQueryController 
+{
 
     // Database connection used to fetch business and review information
     private final Database db = new Database();
 
     // UI containers injected from UserQuery.fxml
+    @FXML private VBox businessWindow;
+    @FXML public VBox reviewsWindow;
+    @FXML private ComboBox<String> businessTypeBox;
+    @FXML private TextField searchNameField;
+    @FXML private TextField searchCityField;
+
+    // added button functionality
     @FXML
-    private VBox businessWindow;
+    private void onSearchClicked() 
+    {
+        String name = searchNameField.getText().trim();
+        String city = searchCityField.getText().trim();
+        String type = businessTypeBox.getValue();
 
-    @FXML
-    public VBox reviewsWindow;
-
-    @FXML
-    private ComboBox<String> businessTypeBox;
-
-
-private void loadBusinessTypeOptions() {
-    try {
-        MongoCollection<Document> coll = db.getCollection("businesses");
-
-        List<String> types = coll.distinct("business_type", String.class)
-                                 .into(new ArrayList<>());
-
-        // Add default "Any"
-        types.add(0, "Any");
-
-        businessTypeBox.getItems().setAll(types);
-
-    } catch (Exception e) {
-        e.printStackTrace();
+        List<Document> results = performSearch(name, city, type);
+        updateBusinessWindow(results);
     }
-}
 
+    @FXML
+    private void onClearClicked() 
+    {
+        searchNameField.clear();
+        searchCityField.clear();
+        businessTypeBox.getSelectionModel().clearSelection();
+        businessTypeBox.setValue("Any");  
 
-/**
- * initialize() is automatically called when the FXML is loaded.
- * It acts like a "constructor" for the scene.
- * We load business data here so the window populates immediately.
- */
-@FXML
-public void initialize() {
+        loadBusinessData(); 
+    }
+
+    // took inspiration from the code you provided and wrote accessible code
+    // for when a user types in business name that results will show 
+    // without it having to be too specific - aaron
+
+    /**
+     * 
+     * @param field
+     * @param value
+     * @return
+     */
+    private Bson containsIgnoreCase(String field, String value) 
+    {
+        if (value == null || value.isBlank()) return null;
+
+        return Filters.regex(field, ".*" + Pattern.quote(value.trim()) + ".*", "i");
+    }
+
+    // added helper method
+    /**
+     * 
+     * @param name
+     * @param city
+     * @param type
+     * @return
+     */
+    private List<Document> performSearch(String name, String city, String type) 
+    {
+
+        MongoCollection<Document> coll = db.getCollection("businesses");
+        List<Bson> filters = new ArrayList<>();
+
+        Bson nameFilter = containsIgnoreCase("name", name);
+        if (nameFilter != null) 
+        {
+            filters.add(nameFilter);
+        }
+
+        Bson cityFilter = containsIgnoreCase("location", city);
+        if (cityFilter != null) 
+        {
+            filters.add(cityFilter);
+        }
+
+        if (type != null && !"Any".equals(type)) 
+        {
+            filters.add(Filters.eq("business_type", type));
+        }
+
+        if (filters.isEmpty()) 
+        {
+            return coll.find().into(new ArrayList<>());
+        }
+
+        return coll.find(Filters.and(filters)).into(new ArrayList<>());
+    }
+
+    // added 
+    /**
+     * 
+     * @param businesses
+     */
+    private void updateBusinessWindow(List<Document> businesses) 
+    {
+        businessWindow.getChildren().clear();
+
+        if (businesses.isEmpty()) 
+        {
+            Label none = new Label("No results found.");
+            none.setStyle("-fx-font-size: 16px; -fx-text-fill: gray;");
+            businessWindow.getChildren().add(none);
+            return;
+        }
+
+        for (Document doc : businesses) 
+        {
+            businessWindow.getChildren().add(createBusinessEntry(doc));
+        }
+    }
+
+    // added
+    /**
+     * 
+     */
+    private void loadBusinessTypeOptions() 
+    {
+        try 
+        {
+            MongoCollection<Document> coll = db.getCollection("businesses");
+            List<String> types = coll.distinct("business_type", String.class)
+                                    .into(new ArrayList<>());
+            types.add(0, "Any");
+            businessTypeBox.getItems().setAll(types);
+
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * initialize() is automatically called when the FXML is loaded.
+     * It acts like a "constructor" for the scene.
+     * We load business data here so the window populates immediately.
+     */
+    @FXML
+    public void initialize() 
+    {
         loadBusinessData();
         loadBusinessTypeOptions();
         // loadReviewsData();   
@@ -91,7 +186,8 @@ public void initialize() {
      * Later this will trigger logout.
      */
     @FXML
-    private void onBackToLogin() {
+    private void onBackToLogin() 
+    {
         Stage stage = (Stage) businessWindow.getScene().getWindow();
         SceneSwitcher.switchToLoginScene(stage);
     }
@@ -99,7 +195,8 @@ public void initialize() {
     /**
      * Loads all business-related documents from MongoDB and populates the top window.
      */
-    private void loadBusinessData() {
+    private void loadBusinessData() 
+    {
 
         businessWindow.getChildren().clear();
 
@@ -108,7 +205,8 @@ public void initialize() {
         List<Document> businesses = db.getAllDocuments("businesses");
 
         // If none found, show a simple message
-        if (businesses.isEmpty()) {
+        if (businesses.isEmpty()) 
+        {
             Label none = new Label("No businesses found.");
             none.setStyle("-fx-font-size: 16px; -fx-text-fill: gray;");
             businessWindow.getChildren().add(none);
@@ -116,7 +214,8 @@ public void initialize() {
         }
 
         // Create a display entry for each business
-        for (Document doc : businesses) {
+        for (Document doc : businesses) 
+        {
             VBox entry = createBusinessEntry(doc);
             businessWindow.getChildren().add(entry);
         }
@@ -126,7 +225,8 @@ public void initialize() {
      * Creates a formatted VBox entry for a single business.
      * Builds UI labels for each field, and adds a hyperlink for the business website.
      */
-    private VBox createBusinessEntry(Document doc) {
+    private VBox createBusinessEntry(Document doc) 
+    {
 
         VBox box = new VBox();
         box.setStyle("-fx-padding: 10; -fx-border-color: black; -fx-border-width: 1; -fx-spacing: 6;");
@@ -147,16 +247,19 @@ public void initialize() {
         box.getChildren().add(new Label("Inclusive: " + transInclusive));
 
         // Handle website hyperlink
-        if (website != null && !website.isBlank()) {
-
+        if (website != null && !website.isBlank()) 
+        {
             Hyperlink siteLink = new Hyperlink(website);
-
             siteLink.setOnAction(e -> {
-                try {
-                    if (Desktop.isDesktopSupported()) {
+                try 
+                {
+                    if (Desktop.isDesktopSupported()) 
+                    {
                         Desktop.getDesktop().browse(new URI(website));
                     }
-                } catch (Exception ex) {
+                } 
+                catch (Exception ex) 
+                {
                     ex.printStackTrace();
                 }
             });
@@ -164,7 +267,9 @@ public void initialize() {
             box.getChildren().add(new Label("Website:"));
             box.getChildren().add(siteLink);
 
-        } else {
+        } 
+        else 
+        {
             box.getChildren().add(new Label("Website: (not provided)"));
         }
 

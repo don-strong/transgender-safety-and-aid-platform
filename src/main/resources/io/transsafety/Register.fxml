@@ -10,7 +10,7 @@
       spacing="12">
 
     <Label text="Create a New Account"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/
+           style="-fx-font-size: 22px; -fx-font-weight: bold;" />
 
     <TextField fx:id="usernameField"
                promptText="Username"
@@ -31,7 +31,6 @@
     <PasswordField fx:id="confirmPasswordField"
                    promptText="Confirm Password"
                    maxWidth="260"/>
-
 
     <Button text="Register"
             maxWidth="260"
