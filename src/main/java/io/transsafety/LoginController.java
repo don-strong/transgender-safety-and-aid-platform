@@ -64,8 +64,9 @@ public class LoginController
 
         statusLabel.setText("Login successful!");
 
-        // TODO: switch to dashboard scene - NEXT FEATURE WIP
-        // TODO: recommend a different file?
+        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
+        SceneSwitcher.switchToUserQueryScene(stage);
+
     }
 
     /**
