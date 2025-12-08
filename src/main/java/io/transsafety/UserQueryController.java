@@ -16,20 +16,20 @@
 package io.transsafety;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.bson.Document;
-import javafx.scene.control.TextField;
-import com.mongodb.client.model.Filters;
-import java.util.regex.Pattern;
 import org.bson.conversions.Bson;
 
 public class UserQueryController 
@@ -45,6 +45,9 @@ public class UserQueryController
     @FXML private TextField searchNameField;
     @FXML private TextField searchCityField;
 
+    private VBox selectedBusinessBox = null;
+
+    
     // added button functionality
     @FXML
     private void onSearchClicked() 
@@ -231,6 +234,11 @@ public class UserQueryController
         VBox box = new VBox();
         box.setStyle("-fx-padding: 10; -fx-border-color: black; -fx-border-width: 1; -fx-spacing: 6;");
 
+        box.setOnMouseClicked(e -> {
+            highlightBusiness(box);
+            showReviews(doc.getString("name"));
+        });
+
         // Extract fields from MongoDB document
         String name = doc.getString("name");
         String type = doc.getString("business_type");
@@ -275,6 +283,38 @@ public class UserQueryController
 
         return box;
     }
+
+    private void highlightBusiness(VBox box) {
+
+        // clears previously selected business highlight
+        if (selectedBusinessBox != null) {
+            selectedBusinessBox.setStyle(
+                "-fx-padding: 10; -fx-border-color: black; -fx-border-width: 1;"
+            );
+        }
+
+        // highlights currently selected business
+        selectedBusinessBox = box;
+        box.setStyle(
+            "-fx-padding: 10; -fx-border-color: blue; -fx-border-width: 2;"
+        );
+}
+
+    private void showReviews(String businessName) {
+
+        // Clear the reviews window
+        reviewsWindow.getChildren().clear();
+
+        // placeholder for reviews
+        reviewsWindow.getChildren().add(
+            new Label("Reviews for: " + businessName)
+        );
+
+        reviewsWindow.getChildren().add(
+            new Label("(No reviews yet)")
+        );
+}
+
 
       
 }
