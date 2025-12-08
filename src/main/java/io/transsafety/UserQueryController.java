@@ -236,7 +236,7 @@ public class UserQueryController
 
         box.setOnMouseClicked(e -> {
             highlightBusiness(box);
-            showReviews(doc.getString("name"));
+            showReviews(doc); // pass whole MongoDB document
         });
 
         // Extract fields from MongoDB document
@@ -284,7 +284,8 @@ public class UserQueryController
         return box;
     }
 
-    private void highlightBusiness(VBox box) {
+    private void highlightBusiness(VBox box) 
+    {
 
         // clears previously selected business highlight
         if (selectedBusinessBox != null) {
@@ -298,23 +299,70 @@ public class UserQueryController
         box.setStyle(
             "-fx-padding: 10; -fx-border-color: blue; -fx-border-width: 2;"
         );
-}
+    }
 
-    private void showReviews(String businessName) {
-
-        // Clear the reviews window
+    private void showReviews(Document businessDoc) 
+    {
         reviewsWindow.getChildren().clear();
 
-        // placeholder for reviews
-        reviewsWindow.getChildren().add(
-            new Label("Reviews for: " + businessName)
-        );
+        String businessName = businessDoc.getString("name");
+        Object businessId = businessDoc.getObjectId("_id");
 
-        reviewsWindow.getChildren().add(
-            new Label("(No reviews yet)")
-        );
-}
+        Label title = new Label("Reviews for: " + businessName);
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        reviewsWindow.getChildren().add(title);
 
+        List<Document> reviews = getReviewsForBusiness(businessId);
+
+        if (reviews.isEmpty()) 
+        {
+            reviewsWindow.getChildren().add(new Label("No reviews yet."));
+            return;
+        }
+
+        for (Document rev : reviews) 
+        {
+            VBox box = new VBox();
+            box.setStyle(
+                "-fx-padding: 10; -fx-border-color: gray; -fx-border-width: 1; -fx-spacing: 4;"
+            );
+
+            Integer rating = rev.getInteger("rating");
+            String comment = rev.getString("comment");
+            String date = rev.getString("date");
+
+            if (rating != null)
+                box.getChildren().add(new Label("Rating: " + rating + " ★"));
+
+            box.getChildren().add(new Label("Comment: " + comment));
+
+            if (date != null)
+                box.getChildren().add(new Label("Date: " + date));
+
+            reviewsWindow.getChildren().add(box);
+        }
+    }
+
+
+    private List<Document> getReviewsForBusiness(Object businessId) 
+    {
+        MongoCollection<Document> coll = db.getCollection("reviews");
+
+        return coll.find(Filters.eq("business_id", businessId))
+                .into(new ArrayList<>());
+    }
+
+    public void addReview(Object businessId, int rating, String comment) 
+    {
+        MongoCollection<Document> coll = db.getCollection("reviews");
+
+        Document review = new Document("business_id", businessId)
+                .append("rating", rating)
+                .append("comment", comment)
+                .append("date", java.time.LocalDate.now().toString());
+
+        coll.insertOne(review);
+    }
 
       
 }
