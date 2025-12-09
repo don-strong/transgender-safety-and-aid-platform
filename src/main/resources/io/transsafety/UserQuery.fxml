@@ -75,7 +75,20 @@
                 </VBox>
             </ScrollPane>
 
-        </VBox>
+            <VBox fx:id="reviewSubmitWindow"
+                  spacing="10"
+                  style="-fx-border-color: black;
+                         -fx-border-width: 1;
+                         -fx-padding: 10;
+                         -fx-background-color: #f4f4f4;">
+
+                <Label text="Submit a Review:" />
+                <TextField fx:id="reviewInput"
+                           promptText="Enter your review here"/>
+
+                <Button text="Submit Review" onAction="#onSubmitReview"/>
+            </VBox>
+       </VBox>
     </center>
 
 </BorderPane>
