@@ -44,6 +44,9 @@ public class UserQueryController
     @FXML private ComboBox<String> businessTypeBox;
     @FXML private TextField searchNameField;
     @FXML private TextField searchCityField;
+    @FXML private VBox reviewSubmitWindow;
+    @FXML private TextField reviewInput;
+
 
     private VBox selectedBusinessBox = null;
 
@@ -362,6 +365,25 @@ public class UserQueryController
                 .append("date", java.time.LocalDate.now().toString());
 
         coll.insertOne(review);
+    }
+
+
+    // added review submission functionality for accompanied fxml  
+    @FXML
+    private void onSubmitReview() {
+        if (selectedBusinessBox == null) {
+            System.out.println("No business selected.");
+            return;
+        }
+
+        String text = reviewInput.getText().trim();
+        if (text.isEmpty()) {
+            System.out.println("Review cannot be empty.");
+            return;
+        }
+
+        System.out.println("Review submitted: " + text);
+        reviewInput.clear();
     }
 
       
