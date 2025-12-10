@@ -2,6 +2,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.Integer?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -75,6 +77,7 @@
                 </VBox>
             </ScrollPane>
 
+            
             <VBox fx:id="reviewSubmitWindow"
                   spacing="10"
                   style="-fx-border-color: black;
@@ -83,11 +86,28 @@
                          -fx-background-color: #f4f4f4;">
 
                 <Label text="Submit a Review:" />
+
                 <TextField fx:id="reviewInput"
-                           promptText="Enter your review here"/>
+                    promptText="Enter your review here"/>
+
+                <Label text="Rating:" />
+
+                <ComboBox fx:id="reviewRatingBox">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <Integer fx:value="1"/>
+                            <Integer fx:value="2"/>
+                            <Integer fx:value="3"/>
+                            <Integer fx:value="4"/>
+                            <Integer fx:value="5"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
 
                 <Button text="Submit Review" onAction="#onSubmitReview"/>
+
             </VBox>
+
        </VBox>
     </center>
 
