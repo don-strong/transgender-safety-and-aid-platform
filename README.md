@@ -1,77 +1,221 @@
-# 🧭 CS 301 Group Project — Transgender Safety & Aid Platform
+# CS301 Group Project
 
 ---
 
-## 📘 Project Name
-**Trans Safety (temp title)**  
-A community-driven platform designed to help transgender individuals locate safe, inclusive, and affirming businesses and services. The project connects users to verified resources such as healthcare providers, retail stores, and personal care services—while allowing them to share reviews, highlight safe spaces, and contribute to a supportive network of trusted locations.
+# Trans Safety & Aid
+
+A JavaFX + MongoDB desktop application that helps transgender and gender-diverse individuals locate safe, inclusive, and affirming real-world businesses and community services.
 
 ---
 
-## 👥 Group Members / Contributors
-Original Project Idea: Hayley
-| Name | Role | GitHub Username |
-|------|------|-----------------|
-| Aaron Alaman | Project Manager / Backend Developer / Tester / Documentation | @aaronalaman |
-| Justin Brown | Frontend Developer / Tester / Documentation | @sixplanet312 |
+## Overview
+
+Trans Safety & Aid is a community-driven application designed to help transgender and gender-diverse people identify safe, affirming, and supportive real-world spaces.
+
+In an environment where political hostility, discrimination, and digital platform limitations create significant barriers, many transgender individuals struggle to access gender-affirming care, safe businesses, and community resources.
+This application aims to bridge that gap by allowing users to search for businesses, healthcare providers, and community services that are verified or highlighted as “safe-to-go” for members of the LGBTQ+ community.
+
+Users can browse listings by service type, search by keywords or location, and view community-contributed reviews describing affirming experiences. By putting visibility and safety information directly into the hands of transgender users, the app supports informed decision-making and fosters a safer community network.
 
 ---
 
-## 🧭 Brief Background About the Project
-Transgender individuals often face challenges finding safe, affirming, and inclusive spaces for everyday needs such as healthcare, retail, and personal care. Many existing platforms lack proper verification or community-driven insight to ensure these environments are genuinely supportive. Transgender Safety & Aid (TSA) addresses this issue by providing a centralized platform that connects users to verified, trans-friendly businesses and services. Through features like community reviews, safe space tagging, and categorization by service type, TSA empowers users to make informed decisions and fosters a stronger sense of safety and belonging within their communities.
+## Target Users
+
+The target users are:
+
+* transgender people
+* gender-nonconforming individuals
+* broader LGBTQ+ community members
+
+Allies, caregivers, and supportive organizations may also use the app to identify affirming services.
 
 ---
 
-## ⚙️ Current Features 
-1. Filter & Search Functionality — users can search for businesses by name, location, or keywords and apply filters for service type (Upcoming).
-2. Service Categorization — businesses are organized by categories such as healthcare, retail, or personal care.
-3. User Account Creation & Login — enables users to create accounts, securely log in, and access personalized features (In Progress).
-4. User Reviews & Ratings — allows users to submit reviews and ratings for businesses.
-5. Defined Safe Spaces Marking — businesses and services are marked as “safe-to-go” or affirming.
-6. Community Tagging & Highlight Features — users can highlight specific affirming aspects such as gender-neutral bathrooms or staff training.
-7. Database Integration — MongoDB connection stores all user accounts, business listings, and reviews (COMPLETED).
+## Motivation
+
+The motivation behind this project is grounded in real-world need: transgender people are facing increasing obstacles to accessing safe spaces, gender-affirming care, and respectful businesses. With discrimination on the rise and limited visibility of affirming services, community-sourced tools like this app can significantly improve safety, accessibility, and overall quality of life.
+
+By enabling people to share supportive resources and mark affirming environments, **Trans Safety & Aid** strengthens mutual aid networks and amplifies the presence of safe, inclusive spaces.
 
 ---
 
-## 🧩 Planned Features / Future Work
-1. Verification & Anti-Griefing System — new accounts must verify identity, be verified by existing users, or wait a set period before contributing safe-space markers.
-2. Report & Moderation Tools — allow users to flag false or malicious entries and enable moderators to review and take action.
-3. Mobile App Development — extend the desktop platform to mobile devices for broader accessibility.
-4. Enhanced Filtering & Sorting Options — advanced search filters, sorting by user ratings, or location proximity.
-5. Community Engagement Features — additional tagging, discussion forums, or support networks within the app.
+## **Features Implemented**
+
+### **MVP Features (Completed)**
+
+* **User Account Creation & Login**
+  * Register new users
+  * Authenticate with stored credentials
+
+* **Search Functionality**
+  * Search by business name, location, or keywords
+
+* **Filtering**
+  * Filter businesses by service type
+
+* **View Reviews**
+  * Preloaded reviews display for each business
+
+* **MongoDB Integration**
+  * Stores users, businesses, and reviews
+  * All DB communication handled in `Database.java`
 
 ---
 
-## 🗓️ Schedule Alignment & Progress Review  
+### **Stretch Features (Not Implemented)**
 
-| **Week** | **Milestone / Deliverables** | **Owners** | **Evidence (PRs / Links / Demos)** | **Status** |
-|-----------|------------------------------|-------------|------------------------------------|-------------|
-| **Oct 26 – Nov 1** | Set up MongoDB and establish connection. Configure JavaFX with Maven and dependencies. Verify CRUD operations via `DBTest.java`. | Aaron | GitHub commits, `DBTest.java` test results, MongoDB connection screenshot/log | ✅ **Completed** <br> MongoDB successfully set up and integrated with JavaFX. CRUD operations verified and functional. |
-| **Nov 2 – Nov 8 & Nov 9 – Nov 15** | Implement user account creation and login functionality. Add database integration for user data storage and retrieval. Include input validation and error handling for authentication. Begin UI layout and design of necessary windows. | Team | PRs for authentication logic, screenshots/demos of login UI, database connection tests (`DBTest.java`) | ⚙️ **In Progress** <br> Focus shifted to user account creation earlier than planned. Awaiting verification on Justin’s local machine to ensure `DBTest.java` success. Once confirmed, `users` collection implementation will proceed. |
-| **Nov 16 – Nov 22** | Implement search and filter functionality. Add service categories (healthcare, retail, personal care, etc.). Display dynamic search results. | Team | Commit history, screenshots or demo of search/filter interface | ⏳ **Not Started (Upcoming)** |
-| **Nov 23 – Nov 29** | Develop user review and rating system. Connect reviews to corresponding businesses in the database. | Team | PRs or commits showing review logic integration, UI demo of review submission | ⏳ **Not Started** |
-| **Nov 30 – Dec 6** | Define Safe Space Markings (per Requirements Specification). Continue refining UI design and accessibility improvements. Adjust schedule as needed for holidays or extended tasks. | Team | Commit references, updated UI screenshots, documentation changes | ⏳ **Not Started** <br> Timeline may shift due to availability or feature extension. |
-| **Dec 7 – Dec 10 (Final)** | Final review and polish. Ensure full functionality with each feature. Resolve any remaining issues. Finalize documentation and submit project. | Team | Final commits, video demo, setup guide, final report | ⏳ **Not Started** |
+* Safe-space verification & moderation
+* Review reporting / anti-griefing features
+* Mobile app version
+* Proximity-based search / advanced filters
+* Saving new reviews to MongoDB
 
 ---
 
-## 🧠 Definition of Done (DoD)
-A feature is **done** when:
-- Code is reviewed and merged into `main`  
-- All acceptance criteria are met  
-- Unit tests pass in CI/CD  
-- Demo shows functional feature without breaking existing functionality  
-- Documentation (README / inline comments) is up to date  
+## **System Requirements (WSL Only)**
+
+### **Operating System**
+* **Windows 10 / 11 using WSL (Ubuntu recommended)**
+
+### **Languages**
+* **Java 17+**
+
+### **Frameworks / Libraries**
+* **JavaFX 17+**
+* **MongoDB Java Driver** (via Maven)
+* **MongoDB Java Driver JAR** *(Only needed if running `DBTest.java` manually)*
+
+### **Build Tool**
+* **Maven**
+
+### **Database (Inside WSL)**
+You will need all of the following:
+* **MongoDB Community Server running in WSL**
+* **MongoDB Compass** (Windows GUI connecting to WSL)
+* **MongoDB VSCode Extension** (Required for browsing/editing DB from VSCode)
+
+### **Dependencies (Automatically Installed via Maven)**
+* JavaFX Controls
+* JavaFX FXML
+* MongoDB Java Driver
 
 ---
 
-## 💻 How to Run
-***WIP***
-Note (will finalize for submission later):
-- java
-- mvn
-- javafx
-- mongodb driver 
-- mongo compass environment download
+## **Clone & Run Instructions (WSL Only)**
+
+### **Step 1 — Install Required Software in WSL**
+
+```bash
+sudo apt update
+sudo apt install openjdk-17-jdk maven -y
+```
+
+### Install MongoDB in WSL
+
+```bash
+sudo apt install -y mongodb
+```
+
+---
+
+### **Step 2 — Start MongoDB (WSL Only)**
+
+```bash
+sudo service mongod start
+```
+
+Check status:
+
+```bash
+sudo service mongod status
+```
+
+MongoDB **must be running** before launching the app.
+
+---
+
+### **Step 3 — Clone the Repository**
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd transgender-safety-and-aid-platform
+```
+
+---
+
+### **Step 4 — Install Maven Dependencies**
+
+```bash
+mvn clean install
+```
+
+---
+
+### **Step 5 — Restore the MongoDB Database (WSL)**
+
+```bash
+mongorestore --db transsafety ./backup_transsafety/transsafety
+```
+
+### OR using MongoDB Compass (Windows App)
+
+Connect Compass to:
+
+```
+mongodb://localhost:27017
+```
+
+Then:
+
+1. Create database: **transsafety**
+2. Import `.bson` into:
+
+   * `users`
+   * `businesses`
+   * `reviews`
+
+---
+
+### **Step 6 — Environment Configuration**
+
+No external config or `.env` file is required.
+
+Database settings are inside `Database.java`:
+
+```java
+  // Database.java
+  private final String connectionString;
+  private final String databaseName;
+
+  // inside Database()
+  this.connectionString = "mongodb://localhost:27017";
+  this.databaseName = "transsafety";
+```
+
+---
+
+## **Step 7 — Run the Application**
+
+```bash
+mvn clean javafx:run
+```
+
+---
+
+## **Step 8 — Using the Application**
+
+### **Login**
+* Use an existing user
+* Or register a new account
+
+### **Main Features**
+Users can:
+* Search for businesses
+* Filter by service type
+* View business details
+* Read preloaded reviews
+* Submit a review (**printed to console only; not stored**)
+
+The application is now fully running under **WSL**.
 
 ---
