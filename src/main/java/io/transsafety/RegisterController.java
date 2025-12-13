@@ -1,6 +1,32 @@
-// TODO: beginning of file documentation
 /**
+ * Implemented by @sixplanet312 (Justin Brown) & @aaron-alaman
+ *
+ * Controller class that handles Registration Page functionality.
+ * Communicates with the Database class to validate and insert 
+ * new user records.
+ *
+ * ## Features ##
+ * - Validates all registration fields (username, passwords, email)
+ * - Checks password length, format, and matching confirmation
+ * - Validates email format and matching confirmation
+ * - Inserts a new user document into the database upon successful validation
+ * - Displays dynamic error or success messages
+ * - Allows navigation back to the Login Page
+ *
+ * ## Database Interaction ##
+ * - Uses Database.java to query and modify the "users" collection
+ * - usernameExists() checks if a username is already stored in the DB
+ * - emailExists() checks for existing entries in the "email" field
+ * - createUser() inserts a new MongoDB Document with user credentials
+ * - All queries are executed via db.findDocuments() and db.insertOneDocument()
  * 
+ * ## Methods ##
+ * - handleRegister()           : Main registration workflow
+ * - validateRegisterFields()   : Validates all user inputs
+ * - usernameExists()           : Checks database for existing usernames
+ * - emailExists(String)        : Checks database for existing emails
+ * - createUser()               : Inserts new user into MongoDB
+ * - handleBackToLogin()        : Navigates back to the Login scene
  */
 
 package io.transsafety;
@@ -35,8 +61,8 @@ public class RegisterController
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-        String email = emailField.getText().trim(); // for later use
-        String confirmEmail = confirmEmailField.getText().trim(); // for later use 
+        String email = emailField.getText().trim(); 
+        String confirmEmail = confirmEmailField.getText().trim(); 
 
         String error = validateRegisterFields(username, password, confirmPassword, email, confirmEmail);
         if (error != null) 
@@ -52,7 +78,7 @@ public class RegisterController
         }
 
         // checks for existing email 
-        if (emailExists(email)) // for later use
+        if (emailExists(email)) 
         {
             errorLabel.setText("Email already exists.");
             return;
@@ -85,9 +111,9 @@ public class RegisterController
             return "All fields are required.";
         }
 
-        if (!username.matches("^[a-zA-Z0-9_]{3,20}$")) 
+        if (!username.matches("^[a-zA-Z0-9_]{6,20}$")) 
         {
-            return "Username must be 3-20 characters long and can only contain letters, numbers, and underscores.";
+            return "Username must be 6-20 characters long and can only contain letters, numbers, and underscores.";
         }
 
         if (!password.equals(confirmPassword)) 
@@ -121,7 +147,6 @@ public class RegisterController
 
     /**
      * Checks if username exists.
-     * Uses findDocuments() from Database.java
      * 
      * @param username
      * @return
@@ -135,7 +160,6 @@ public class RegisterController
 
     /**
      * Checks if an email already exists in the database.
-     * Uses findDocuments() from Database.java
      *
      * @param email the email to check
      * @return true if the email exists, false otherwise
@@ -144,11 +168,10 @@ public class RegisterController
     {
         List<Document> results = db.findDocuments("users", "email", email);
         return !results.isEmpty();
-    } // code for later
+    } 
 
     /**
      * Creates a new user.
-     * Uses insertOneDocument() from Database.java
      * 
      * @param username
      * @param password
@@ -163,7 +186,7 @@ public class RegisterController
     }
 
     /**
-     *  returns to the login screen when "Cancel" is clicked.
+     * Returns to the login screen 
      */
     @FXML
     private void handleBackToLogin() 

@@ -1,36 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Login.fxml
+    Implemented by @sixplanet312 (Justin Brown)
+
+    Description:
+    Defines the layout and UI controls for the Login Page of the Trans Safety application.
+    Includes fields for username/email and password, status messaging, and navigation buttons.
+
+    Features:
+    - Username/email and password input fields
+    - Login button that triggers authentication
+    - Navigation to account registration
+    - Temporary "User Query Test" button for development/testing
+    - Status label for displaying validation or login messages
+
+    Controller:
+    - io.transsafety.LoginController
+-->
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="12" alignment="CENTER"
+<VBox spacing="12"
+      alignment="CENTER"
       xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.transsafety.LoginController">
 
+    <!-- Padding around the entire login form -->
     <padding>
         <Insets top="24" right="24" bottom="24" left="24"/>
     </padding>
 
+    <!-- Application title / welcome message -->
     <Label text="Welcome to Trans Safety"
            style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
+    <!-- Input field for username or email -->
     <TextField fx:id="usernameOrEmailField"
                promptText="Username or Email"
                maxWidth="300"/>
 
+    <!-- Input field for password (masked for security) -->
     <PasswordField fx:id="passwordField"
                    promptText="Password"
                    maxWidth="300"/>
 
+    <!-- Container for action and navigation buttons -->
     <HBox spacing="10" alignment="CENTER">
         <Button text="Login" onAction="#onLogin"/>
         <Button text="Create Account" onAction="#onGoToRegister"/>
+
+        <!-- Temporary button used for testing the User Query view -->
         <Button text="User Query Test" onAction="#onGoToUserQuery"/>
+
     </HBox>
 
+    <!-- Displays login status messages or error feedback -->
+    <Label fx:id="statusLabel"
+           style="-fx-text-fill: red;"/>
 
-
-    <Label fx:id="statusLabel" style="-fx-text-fill: red;"/>
 </VBox>
-
