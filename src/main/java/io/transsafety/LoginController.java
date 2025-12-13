@@ -1,6 +1,34 @@
-// TODO: beginning of file documentation
 /**
+ * Implemented by @sixplanet312 (Justin Brown) & @aaron-alaman
+ *
+ * Controller class that handles Login Page functionality.
+ * Communicates with the Database class to retrieve user 
+ * records and verify login credentials.
+ *
+ * ## Features ##
+ * - Validates username/email and password fields
+ * - Searches for users by both username and email
+ * - Verifies stored passwords against user input
+ * - Displays status messages for error and success states
+ * - Navigates to Register or User Query scenes based on user actions
  * 
+ * ## Database Interaction ##
+ * - Uses Database.java to query the "users" collection
+ * - fetchUserName() searches for matching "username" field values
+ * - fetchUserEmail() searches for matching "email" field values
+ * - passwordMatches() validates the provided password against the stored record
+ * - Operates using List<Document> returned from MongoDB queries
+ *
+ * ## Methods ##
+ * - onGoToRegister()       : Switches to the account registration scene
+ * - onGoToUserQuery()      : Switches to the user query scene after login
+ * - onLogin()              : Handles login logic, validation, and DB 
+ *                            authentication
+ * - validateLoginInput()   : Ensures username/email and password fields 
+ *                            are filled
+ * - fetchUserName()        : Retrieves a user document by username
+ * - fetchUserEmail()       : Retrieves a user document by email
+ * - passwordMatches()      : Verifies the entered password with stored data
  */
 
 package io.transsafety;
@@ -17,10 +45,38 @@ import org.bson.Document;
 public class LoginController 
 {
 
+    // FXML frontend variables
     @FXML private TextField usernameOrEmailField;
     @FXML private PasswordField passwordField;
     @FXML private Label statusLabel;
+
+    // Database.java object 'db' 
     private final Database db = new Database();
+
+        /**
+     * Switches stage when users click on "Create Account"
+     * 
+     * @param event
+     */
+    @FXML
+    private void onGoToRegister(ActionEvent event) 
+    {
+        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
+        SceneSwitcher.switchToRegisterScene(stage);
+    }
+
+
+    /**
+     * Switches stage when users successfully logged in.
+     * 
+     * @param event
+     */
+    @FXML
+    private void onGoToUserQuery(ActionEvent event) 
+    {
+        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
+        SceneSwitcher.switchToUserQueryScene(stage);
+    }
 
     /**
      * Handles the login button action: validates inputs, checks user existence,
@@ -117,26 +173,4 @@ public class LoginController
         return storedPassword.equals(enteredPassword);
     }
 
-    /**
-     * 
-     * @param event
-     */
-    @FXML
-    private void onGoToRegister(ActionEvent event) 
-    {
-        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
-        SceneSwitcher.switchToRegisterScene(stage);
-    }
-
-
-    /**
-     * 
-     * @param event
-     */
-    @FXML
-    private void onGoToUserQuery(ActionEvent event) 
-    {
-        Stage stage = (Stage) usernameOrEmailField.getScene().getWindow();
-        SceneSwitcher.switchToUserQueryScene(stage);
-    }
 }

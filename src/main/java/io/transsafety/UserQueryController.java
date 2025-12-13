@@ -1,17 +1,45 @@
 /**
- * TODO: Add proper documentation 
- * TODO: reorganize code 
- * 
+ * Implemented by @sixplanet312 (Justin Brown) & @aaron-alaman
+ *
+ * Controller class that manages the User Query interface shown after login.
+ * Communicates with the Database class to retrieve business information, 
+ * search results, and associated reviews. It dynamically builds UI components 
+ * for displaying business entries and review data, and provides users with 
+ * tools to search, filter, and submit reviews.
+ *
+ * ## Features ##
+ * - Loads all business data on initialization
+ * - Allows searching by name, city, and business type (case-insensitive)
+ * - Displays business details including contact info, inclusivity status, 
+ *   and website
+ * - Dynamically loads and displays reviews for the selected business
+ * - Supports submitting new reviews (console-only : rating + text)
+ * - Highlights the currently selected business
+ * - Provides a clear button to reset filters
+ * - Allows returning to the Login page (logout placeholder)
+ *
+ * ## Database Interaction ##
+ * - Fetches business documents from the "businesses" collection
+ * - Fetches and inserts reviews in the "reviews" collection
+ * - Uses regex filters for flexible name/city matching
+ *
+ * ## Methods ##
+ * - initialize()             : Called on load; populates UI with initial data
+ * - onSearchClicked()        : Performs a filtered business search
+ * - onClearClicked()         : Resets search fields and reloads data
+ * - containsIgnoreCase()     : Builds a case-insensitive regex filter
+ * - performSearch()          : Executes MongoDB queries based on filters
+ * - updateBusinessWindow()   : Refreshes the business display area
+ * - loadBusinessData()       : Loads all businesses from the DB
+ * - loadBusinessTypeOptions(): Loads unique business types into ComboBox
+ * - createBusinessEntry()    : Builds a visual VBox entry for a business
+ * - highlightBusiness()      : Visually highlights the selected business
+ * - showReviews()            : Displays reviews for a selected business
+ * - getReviewsForBusiness()  : Fetches review documents from DB
+ * - addReview()              : Inserts a review into the database
+ * - onSubmitReview()         : Handles review form submission
+ * - onBackToLogin()          : Returns user to Login scene
  */
-
-/* implemented by @Justin Brown
-*
-* Start of user interface after login. User will run queries from here using various input fields and buttons.
-* Displays two windows, one for user queries and one for displaying user reviews and ratings.
-*
-* Also a back button to return to login screen. Later this will trigger a logout function
-* to clear session data.
-*/
 
 package io.transsafety;
 
@@ -47,12 +75,13 @@ public class UserQueryController
     @FXML private VBox reviewSubmitWindow;
     @FXML private TextField reviewInput;
     @FXML private ComboBox<Integer> reviewRatingBox;
-
-
     private VBox selectedBusinessBox = null;
 
-    
-    // added button functionality
+    /**
+     * Triggered when the Search button is clicked.
+     * Collects input values, performs the business search,
+     * and updates the UI with the results.
+     */
     @FXML
     private void onSearchClicked() 
     {
@@ -64,6 +93,10 @@ public class UserQueryController
         updateBusinessWindow(results);
     }
 
+    /**
+     * Resets all search fields to default values and reloads the full
+     * business list. Acts as a quick "reset search" function.
+     */
     @FXML
     private void onClearClicked() 
     {
@@ -75,15 +108,80 @@ public class UserQueryController
         loadBusinessData(); 
     }
 
-    // took inspiration from the code you provided and wrote accessible code
-    // for when a user types in business name that results will show 
-    // without it having to be too specific - aaron
+    /**
+     * Automatically executed when the FXML UI loads.
+     * Populates the business list and loads available business types.
+     */
+    @FXML
+    public void initialize() 
+    {
+        loadBusinessData();
+        loadBusinessTypeOptions();
+        // loadReviewsData();   
+    }
 
     /**
-     * 
-     * @param field
-     * @param value
-     * @return
+     * Navigates the user back to the Login Page.
+     * Placeholder for future logout/session clearing.
+     */
+    @FXML
+    private void onBackToLogin() 
+    {
+        Stage stage = (Stage) businessWindow.getScene().getWindow();
+        SceneSwitcher.switchToLoginScene(stage);
+    }
+
+    /**
+     * Validates review input fields and prepares the review for submission.
+     * Clears form input afterward. (DB save integration is handled separately.)
+     */
+    @FXML
+    private void onSubmitReview() 
+    {
+
+        // checks if business is selected
+        if (selectedBusinessBox == null) 
+        {
+            System.out.println("No business selected.");
+            return;
+        }
+
+        // get business ID from selected business box
+        String text = reviewInput.getText().trim();
+        if (text.isEmpty())
+        {
+            System.out.println("Review cannot be empty.");
+            return;
+        }
+
+        // will not submit if no rating is selected
+        Integer rating = reviewRatingBox.getValue();
+        if (rating == null) 
+        {
+            System.out.println("Please select a rating.");
+            return;
+        }
+
+        // appends teh date at the time of review submission
+        String date = java.time.LocalDate.now().toString();
+
+        // logs submission to console for now (needs to be stored in DB)
+        System.out.println("Review Submitted:");
+        System.out.println("Text: " + text);
+        System.out.println("Rating: " + rating);
+        System.out.println("Date: " + date);
+
+        // retrieve business document based on selected boxe
+        reviewInput.clear();
+        reviewRatingBox.getSelectionModel().clearSelection();
+    }
+
+    /**
+     * Builds a case-insensitive regex filter for MongoDB.
+     *
+     * @param field the document field to filter on
+     * @param value the text to search for
+     * @return a Bson regex filter, or null if value is blank
      */
     private Bson containsIgnoreCase(String field, String value) 
     {
@@ -92,13 +190,13 @@ public class UserQueryController
         return Filters.regex(field, ".*" + Pattern.quote(value.trim()) + ".*", "i");
     }
 
-    // added helper method
     /**
-     * 
-     * @param name
-     * @param city
-     * @param type
-     * @return
+     * Performs a database search for businesses matching the provided filters.
+     *
+     * @param name business name (partial allowed)
+     * @param city business city/location (partial allowed)
+     * @param type business type or category
+     * @return a list of matching business documents
      */
     private List<Document> performSearch(String name, String city, String type) 
     {
@@ -131,10 +229,11 @@ public class UserQueryController
         return coll.find(Filters.and(filters)).into(new ArrayList<>());
     }
 
-    // added 
     /**
-     * 
-     * @param businesses
+     * Clears and repopulates the business display window with the given documents.
+     * Displays "No results found" when the list is empty.
+     *
+     * @param businesses the list of businesses to display
      */
     private void updateBusinessWindow(List<Document> businesses) 
     {
@@ -154,9 +253,9 @@ public class UserQueryController
         }
     }
 
-    // added
     /**
-     * 
+     * Loads all unique business types from the database and populates
+     * the Business Type ComboBox. Includes "Any" as a default option.
      */
     private void loadBusinessTypeOptions() 
     {
@@ -176,31 +275,8 @@ public class UserQueryController
     }
 
     /**
-     * initialize() is automatically called when the FXML is loaded.
-     * It acts like a "constructor" for the scene.
-     * We load business data here so the window populates immediately.
-     */
-    @FXML
-    public void initialize() 
-    {
-        loadBusinessData();
-        loadBusinessTypeOptions();
-        // loadReviewsData();   
-    }
-
-    /**
-     * Button handler to return to Login screen.
-     * Later this will trigger logout.
-     */
-    @FXML
-    private void onBackToLogin() 
-    {
-        Stage stage = (Stage) businessWindow.getScene().getWindow();
-        SceneSwitcher.switchToLoginScene(stage);
-    }
-
-    /**
-     * Loads all business-related documents from MongoDB and populates the top window.
+     * Retrieves all businesses from the database and populates the main
+     * business display window. Used during initialization and search resets.
      */
     private void loadBusinessData() 
     {
@@ -229,8 +305,11 @@ public class UserQueryController
     }
 
     /**
-     * Creates a formatted VBox entry for a single business.
-     * Builds UI labels for each field, and adds a hyperlink for the business website.
+     * Builds a styled VBox containing business information such as name,
+     * type, contact details, inclusivity status, and a website link.
+     *
+     * @param doc the business MongoDB document
+     * @return a fully formatted VBox entry
      */
     private VBox createBusinessEntry(Document doc) 
     {
@@ -288,11 +367,18 @@ public class UserQueryController
         return box;
     }
 
+    /**
+     * Applies a highlight border to the selected business entry, and clears
+     * any previous highlight.
+     *
+     * @param box the VBox representing the selected business
+     */
     private void highlightBusiness(VBox box) 
     {
 
         // clears previously selected business highlight
-        if (selectedBusinessBox != null) {
+        if (selectedBusinessBox != null) 
+        {
             selectedBusinessBox.setStyle(
                 "-fx-padding: 10; -fx-border-color: black; -fx-border-width: 1;"
             );
@@ -305,6 +391,11 @@ public class UserQueryController
         );
     }
 
+    /**
+     * Loads and displays all reviews belonging to the selected business.
+     *
+     * @param businessDoc the MongoDB document of the selected business
+     */
     private void showReviews(Document businessDoc) 
     {
         reviewsWindow.getChildren().clear();
@@ -347,7 +438,12 @@ public class UserQueryController
         }
     }
 
-
+    /**
+     * Retrieves all review documents linked to a specific business.
+     *
+     * @param businessId the unique ID of the business
+     * @return list of review documents
+     */
     private List<Document> getReviewsForBusiness(Object businessId) 
     {
         MongoCollection<Document> coll = db.getCollection("reviews");
@@ -356,6 +452,14 @@ public class UserQueryController
                 .into(new ArrayList<>());
     }
 
+    /**
+     * Inserts a new review document into the database containing the business ID,
+     * rating, comment, and current date.
+     *
+     * @param businessId ID of the business
+     * @param rating     review rating (1–5)
+     * @param comment    written review text
+     */
     public void addReview(Object businessId, int rating, String comment) 
     {
         MongoCollection<Document> coll = db.getCollection("reviews");
@@ -367,45 +471,5 @@ public class UserQueryController
 
         coll.insertOne(review);
     }
-
-
-    // added review submission functionality for accompanied fxml  
-    @FXML
-    private void onSubmitReview() {
-
-        // checks if business is selected
-        if (selectedBusinessBox == null) {
-            System.out.println("No business selected.");
-            return;
-        }
-
-        // get business ID from selected business box
-        String text = reviewInput.getText().trim();
-        if (text.isEmpty()) {
-            System.out.println("Review cannot be empty.");
-            return;
-        }
-
-        // will not submit if no rating is selected
-        Integer rating = reviewRatingBox.getValue();
-        if (rating == null) {
-            System.out.println("Please select a rating.");
-            return;
-        }
-
-        // appends teh date at the time of review submission
-        String date = java.time.LocalDate.now().toString();
-
-        // logs submission to console for now (needs to be stored in DB)
-        System.out.println("Review Submitted:");
-        System.out.println("Text: " + text);
-        System.out.println("Rating: " + rating);
-        System.out.println("Date: " + date);
-
-        // retrieve business document based on selected boxe
-        reviewInput.clear();
-        reviewRatingBox.getSelectionModel().clearSelection();
-    }
-
-      
+  
 }

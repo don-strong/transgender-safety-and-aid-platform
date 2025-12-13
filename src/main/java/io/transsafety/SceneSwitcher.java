@@ -1,6 +1,20 @@
-// TODO: beginning of file documentation
 /**
- * 
+ * Implemented by @sixplanet312 (Justin Brown)
+ *
+ * Utility class responsible for switching between JavaFX scenes.
+ * Centralizes all FXML loading logic to simplify navigation across the app.
+ *
+ * ## Features ##
+ * - Loads FXML files safely with built-in error handling
+ * - Reuses a generic switchTo() method for all scene transitions
+ * - Provides dedicated helpers for Login, Register, and User Query scenes
+ * - Ensures consistent window dimensions across scene loads
+ *
+ * ## Methods ##
+ * - switchTo()                        : Loads an FXML file and displays it
+ * - switchToLoginScene(Stage)         : Loads Login.fxml
+ * - switchToRegisterScene(Stage)      : Loads Register.fxml
+ * - switchToUserQueryScene(Stage)     : Loads UserQuery.fxml
  */
 
 package io.transsafety;

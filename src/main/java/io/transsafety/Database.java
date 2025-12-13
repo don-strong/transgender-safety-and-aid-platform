@@ -5,7 +5,7 @@
  * Contains CRUD operations (Create (+ Insert), Read, Update, Delete) 
  * and proper close connection.
  *
- * ## Built-in MongoDB Java Driver methods used ##
+ * ## Built-in MongoDB Java Driver method calls used ##
  * - getName()             : Gets the name of the connected database.
  * - listCollectionNames() : Lists all collections in the database.
  * - createCollection()    : Creates a new collection in the database.
@@ -24,7 +24,6 @@
  * - updateOneDocument()   : Updates the first document that matches a filter.
  * - deleteOneDocument()   : Deletes the first document that matches a filter.
  * - close()               : Safely closes the connection whenever needed.
- *
  */
 
 package io.transsafety;
